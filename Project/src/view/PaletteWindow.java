@@ -214,22 +214,21 @@ public class PaletteWindow extends Window {
 		}
 
 		@Override
-		public void paint(Graphics g) {
-			for (int i = 0; i < parentWindow.getObjects().size(); i++) {
-				BufferedImage img = parentWindow.getObjects().get(i).getDisplay(zoom);
-				int x = parentWindow.getObjects().get(i).getX();
-				int y = parentWindow.getObjects().get(i).getY();
-				g.drawImage(img, x, y, null);
-			}
-		}
-
-		@Override
 		public void run() {
 			createBufferStrategy(3);
 			while (true) {
-				repaint();
+				
+				Graphics g = getBufferStrategy().getDrawGraphics();
+				for (int i = 0; i < parentWindow.getObjects().size(); i++) {
+					BufferedImage img = parentWindow.getObjects().get(i).getDisplay(zoom);
+					int x = parentWindow.getObjects().get(i).getX();
+					int y = parentWindow.getObjects().get(i).getY();
+					g.drawImage(img, x, y, null);
+				}
+				getBufferStrategy().show();
+				
 				try {
-					Thread.sleep(200);
+					Thread.sleep(50);
 				} catch (InterruptedException ex) {
 				}
 			}
